@@ -7,6 +7,6 @@ ARG	DB_NAME \
 
 RUN	apk update && apk upgrade && apk add --no-cache mariadb mariadb-client
 EXPOSE	3306
-USER	mysql
 COPY	./tools/init.sh .
+USER	mysql
 RUN	sh init.sh && rm -rf init.sh

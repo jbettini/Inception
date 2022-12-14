@@ -6,7 +6,7 @@ services:
 #      - wordpress
     build:
       context: ./requirements/nginx
-      dockerfile: requirements/nginx/Dockerfile
+      dockerfile: Dockerfile
     container_name: nginx
     ports:
       - "443:443"
@@ -18,7 +18,7 @@ services:
   mariadb:
     build :
       context: ./requirements/mariadb
-      dockerfile: requirements/mariadb/Dockerfile
+      dockerfile: Dockerfile
       args:
         DB_NAME: ${DB_NAME}
         DB_ROOT: ${DB_ROOT}

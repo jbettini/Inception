@@ -10,3 +10,4 @@ EXPOSE	3306
 COPY	./tools/init.sh .
 USER	mysql
 RUN	sh init.sh && rm -rf init.sh
+CMD	["mysqld_safe"]

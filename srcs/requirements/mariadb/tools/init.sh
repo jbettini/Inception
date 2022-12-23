@@ -1,11 +1,10 @@
 #!bin/sh
-if [ ! -d "var/lib/mysql/${DB_NAME}" ]; then 
-	sed -i "s|.*skip-networking.*|skip-networking|g" /etc/my.cnf.d/mariadb-server.cnf
-	sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf
+if [ ! -d "/var/lib/mysql/${DB_NAME}" ]; then
+	sed -i "s/skip-networking/skip-networking=0/g" /etc/my.cnf.d/mariadb-server.cnf
+	sed -i "s/#bind-address=0.0.0.0/bind-address=0.0.0.0/g" /etc/my.cnf.d/mariadb-server.cnf
 	rc-service mariadb setup
 	rc-service mariadb start
-	chmod 777 /var/run/mysqld
-	mysql -u root << EOF 
+	mysql -u root << EOF
 USE mysql;
 
 #Reload privilege tables
@@ -16,19 +15,18 @@ DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
 
 #Delete anonymous user
-#DELETE FROM mysql.global_priv WHERE User='';
+DELETE FROM mysql.global_priv WHERE User='';
 
-#Remove Remote root
-#DELETE FROM mysql.global_priv WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+#Remove Remote Root
+DELETE FROM mysql.global_priv WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 
-#Configure our database
-CREATE DATABASE ${DB_NAME}  CHARACTER SET utf8 COLLATE utf8_general_ci;
+#Configure ou database
+CREATE DATABASE ${DB_NAME};
 CREATE USER '${DB_USER}'@'%' IDENTIFIED by '${DB_PASS}';
-GRANT ALL PRIVILEGES ON wordpress.* TO '${DB_USER}'@'%';
+GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT}';
 FLUSH PRIVILEGES;
 
 EOF
-	rc-service mariadb restart
+	rc-service mariadb stop
 fi

@@ -20,7 +20,7 @@ DELETE FROM mysql.global_priv WHERE User='';
 #Remove Remote Root
 DELETE FROM mysql.global_priv WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 
-#Configure ou database
+#Configure our database
 CREATE DATABASE ${DB_NAME};
 CREATE USER '${DB_USER}'@'%' IDENTIFIED by '${DB_PASS}';
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
@@ -28,5 +28,5 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT}';
 FLUSH PRIVILEGES;
 
 EOF
-	rc-service mariadb stop
+	rc-service mariadb restart
 fi

@@ -11,3 +11,5 @@ define( 'DB_COLLATE', '' );
 define('FS_METHOD','direct');
 \$table_prefix = 'wp_';
 define( 'WP_DEBUG', false );
+EOF
+fi

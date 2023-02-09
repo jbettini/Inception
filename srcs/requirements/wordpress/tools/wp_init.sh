@@ -9,7 +9,14 @@ define( 'DB_HOST', 'mariadb' );
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
 define('FS_METHOD','direct');
+define( 'WP_MEMORY_LIMIT', '256M' );
+error_reporting(E_ALL); ini_set('display_errors', 1);
+#define( 'WP_DEBUG', true );
+#define('WP_DEBUG_LOG', true);
+#define('WP_DEBUG_DISPLAY', true);
 \$table_prefix = 'wp_';
-define( 'WP_DEBUG', false );
+if ( ! defined( 'ABSPATH' ) )
+	define( 'ABSPATH', __DIR__ . '/' );}
+require_once ABSPATH . 'wp-settings.php';
 EOF
 fi

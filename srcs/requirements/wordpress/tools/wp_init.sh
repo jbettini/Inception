@@ -11,9 +11,6 @@ define( 'DB_COLLATE', '' );
 define('FS_METHOD','direct');
 define( 'WP_MEMORY_LIMIT', '256M' );
 error_reporting(E_ALL); ini_set('display_errors', 1);
-#define( 'WP_DEBUG', true );
-#define('WP_DEBUG_LOG', true);
-#define('WP_DEBUG_DISPLAY', true);
 \$table_prefix = 'wp_';
 if ( ! defined( 'ABSPATH' ) )
 	define( 'ABSPATH', __DIR__ . '/' );}

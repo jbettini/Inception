@@ -1,30 +1,30 @@
-NAME = nginx_t
+name = inception
 
-all :
-	@printf "Launch configuration ${NAME}\n"
-	@docker-compose -f ./docker-compose.yml up -d
-	
-build :
-	@printf "Building configuration ${NAME}\n"
-	@docker-compose -f ./docker-compose.yml up -d --build
+all:
+  	@bash srcs/requirements/wordpress/tools/make_dir.sh
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
 
-down : 
-	@printf "Stopping configuration ${NAME}\n"
-	@docker-compose -f ./docker-compose.yml down
+build:
+  	@bash srcs/requirements/wordpress/tools/make_dir.sh
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
 
-re : down 
-	@printf "Rebuild configuration ${NAME}\n"
-	@docker-compose -f ./docker-compose.yml up -d --build
+down:
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env down
 
-clean : down
-	@printf "Cleaning configuration ${NAME}\n"
+re: down
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
+
+clean: down
 	@docker system prune -a
-	
-fclean : down 
-	@printf "Cleaning all configuration ${NAME}\n"
+	@sudo rm -rf ~/data/wordpress/*
+	@sudo rm -rf ~/data/mariadb/*
+
+fclean:
 	@docker stop $$(docker ps -qa)
 	@docker system prune --all --force --volumes
 	@docker network prune --force
 	@docker volume prune --force
+	@sudo rm -rf ~/data/wordpress/*
+	@sudo rm -rf ~/data/mariadb/*
 
-.PHONY	:	all build down re clean fclean
+.PHONY	: all build down re clean fclean

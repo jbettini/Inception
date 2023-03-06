@@ -10,7 +10,6 @@ define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
 define('FS_METHOD','direct');
 define( 'WP_MEMORY_LIMIT', '256M' );
-error_reporting(E_ALL); ini_set('display_errors', 1);
 \$table_prefix = 'wp_';
 if ( ! defined( 'ABSPATH' ) )
 	define( 'ABSPATH', __DIR__ . '/' );}

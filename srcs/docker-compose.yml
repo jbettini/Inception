@@ -29,6 +29,8 @@ services:
     container_name: mariadb
     ports:
       - "3306:3306"
+    volumes :
+      - db-volume:/var/lib/mysql
     restart: always
     networks:
       - inception
